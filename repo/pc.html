@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Vendor Price Comparison</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/906/906334.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+
+        .official-header {
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+        }
+
+        .official-border {
+            border: 1px solid #cbd5e1;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            background-color: #f8fafc !important;
+        }
+
+        .company-input {
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        /* Styling placeholders to look like "default preview" text */
+        input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
+            text-transform: none;
+        }
+    </style>
+</head>
+<body class="text-slate-900 min-h-screen">
+
+    <!-- Header -->
+    <header class="official-header text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-white/10 p-2 rounded border border-white/20">
+                    <i data-lucide="file-text" class="text-white w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg tracking-wide uppercase">IT Procurement</h1>
+                    <p class="text-[10px] text-slate-400 tracking-[0.2em] uppercase">IT Vendor Price Analysis</p>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="generatePDF()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded shadow-sm font-semibold text-sm transition-all active:scale-95">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    Export PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-10">
+        
+        <!-- Metadata Section -->
+        <div class="bg-white official-border rounded-sm p-8 mb-8 shadow-sm">
+            <div class="border-l-4 border-slate-800 pl-4 mb-8">
+                <h2 class="text-xl font-bold uppercase tracking-tight text-slate-800">Report Details</h2>
+            </div>
+            
+            <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-8"> -->
+            <div class="grid grid-cols-1 gap-8">
+               <div class="space-y-2">
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Item Name</label>
+                    <input type="text" id="reportTitle" oninput="syncItemNames()" placeholder="INSERT ITEM NAME" 
+                           class="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm font-medium" value="">
+                </div>
+                <!-- <div class="space-y-2">
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Prepared By</label>
+                    <select id="preparedBy" class="w-full p-3 bg-slate-50 border border-slate-200 rounded text-sm font-medium">
+                        <option value="">Select IT Support...</option>
+                        <option value="Muhammad Aqil">Muhammad Aqil</option>
+                    </select>
+                </div> -->
+            </div>
+        </div>
+
+        <!-- Official Table -->
+        <div class="bg-white official-border rounded-sm shadow-sm overflow-hidden mb-6">
+            <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-widest">Comparison Grid</span>
+                <button onclick="addRow()" class="text-blue-600 hover:text-blue-800 flex items-center gap-1 text-xs font-bold transition-colors">
+                    <i data-lucide="plus" class="w-3 h-3"></i> ADD VENDOR
+                </button>
+            </div>
+            
+            <table class="w-full text-left border-collapse" id="comparisonTable">
+                <thead>
+                    <tr class="bg-white border-b-2 border-slate-800">
+                        <th class="p-4 text-[11px] font-black uppercase w-16 text-center align-middle">No.</th>
+                        <th class="p-4 text-[11px] font-black uppercase align-middle">Company Name & Item Description</th>
+                        <th class="p-4 text-[11px] font-black uppercase w-32 text-right align-middle">Price (RM)</th>
+                        <th class="p-4 text-[11px] font-black uppercase w-28 text-center align-middle">Quantity</th>
+                        <th class="p-4 text-[11px] font-black uppercase w-40 text-right align-middle">Total Price (RM)</th>
+                        <th class="p-4 text-[11px] font-black uppercase w-12 text-center align-middle"></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" class="divide-y divide-slate-100">
+                    <!-- Rows injected here -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Real-time Best Price Indicator -->
+        <div id="lowestPriceIndicator" class="hidden bg-green-50 border border-green-200 rounded p-4 flex items-center gap-3">
+            <i data-lucide="award" class="text-green-600 w-5 h-5"></i>
+            <span class="text-sm font-bold text-green-800" id="lowestPriceText"></span>
+        </div>
+    </main>
+
+    <script>
+        let rowCount = 0;
+
+        function init() {
+            lucide.createIcons();
+            for(let i=0; i<3; i++) {
+                addRow();
+            }
+            updateLowestPrice();
+        // Auto update footer year
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+        }
+
+        function syncItemNames() {
+            const title = document.getElementById('reportTitle').value;
+            document.querySelectorAll('.item-input').forEach(input => {
+                input.value = title;
+            });
+            updateLowestPrice();
+        }
+
+        function addRow(data = { company: '', price: 0, qty: 1 }) {
+            rowCount++;
+            const tableBody = document.getElementById('tableBody');
+            const row = document.createElement('tr');
+            row.id = `row-${rowCount}`;
+            row.className = "hover:bg-slate-50 transition-colors";
+            
+            const currentItemTitle = document.getElementById('reportTitle').value;
+            const displayPrice = data.price === 0 ? "" : data.price;
+
+            row.innerHTML = `
+                <td class="p-4 text-xs font-bold text-slate-400 text-center">${rowCount}</td>
+                <td class="p-4">
+                    <input type="text" placeholder="INSERT VENDOR NAME HERE" class="company-input w-full bg-transparent font-bold text-slate-900 border-none p-0 focus:ring-0" value="${data.company.toUpperCase()}" oninput="this.value = this.value.toUpperCase(); updateLowestPrice()">
+                    <input type="text" placeholder="INSERT ITEM NAME" class="item-input w-full bg-transparent text-xs text-slate-500 border-none p-0 focus:ring-0 mt-1" value="${currentItemTitle}" readonly>
+                </td>
+                <td class="p-4 text-right">
+                    <div class="flex items-center justify-end gap-1 px-1 py-1 border border-slate-200 rounded bg-white focus-within:border-blue-500">
+                        <span class="text-[10px] font-bold text-slate-400">RM</span>
+                        <input type="number" step="0.01" placeholder="0.00" class="price-input w-24 bg-transparent border-none text-right text-sm font-mono p-0 focus:ring-0" value="${displayPrice}" oninput="calculateRow(${rowCount})">
+                    </div>
+                </td>
+                <td class="p-4 text-center">
+                    <input type="number" class="qty-input w-16 p-1.5 rounded border border-slate-200 text-center text-sm font-mono" value="${data.qty}" oninput="calculateRow(${rowCount})">
+                </td>
+                <td class="p-4 text-right">
+                    <div class="total-display font-bold text-slate-900 text-sm font-mono">RM ${ (data.price * data.qty).toLocaleString('en-MY', {minimumFractionDigits: 2}) }</div>
+                </td>
+                <td class="p-4 text-center">
+                    <button onclick="removeRow(${rowCount})" class="text-slate-300 hover:text-red-600">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </td>
+            `;
+            
+            tableBody.appendChild(row);
+            lucide.createIcons();
+        }
+
+        function removeRow(id) {
+            const el = document.getElementById(`row-${id}`);
+            if(el) el.remove();
+            reorderRows();
+            updateLowestPrice();
+        }
+
+        function reorderRows() {
+            const rows = document.querySelectorAll('#tableBody tr');
+            rows.forEach((row, index) => {
+                row.querySelector('td:first-child').innerText = index + 1;
+            });
+        }
+
+        function calculateRow(id) {
+            const row = document.getElementById(`row-${id}`);
+            const price = parseFloat(row.querySelector('.price-input').value) || 0;
+            const qty = parseFloat(row.querySelector('.qty-input').value) || 0;
+            const total = price * qty;
+            row.querySelector('.total-display').innerText = `RM ${total.toLocaleString('en-MY', {minimumFractionDigits: 2})}`;
+            updateLowestPrice();
+        }
+
+        function updateLowestPrice() {
+            let lowest = Infinity;
+            let bestVendors = [];
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const price = parseFloat(row.querySelector('.price-input').value) || 0;
+                const qty = parseFloat(row.querySelector('.qty-input').value) || 0;
+                const total = price * qty;
+                const company = row.querySelector('.company-input').value.trim();
+                
+                if (total > 0 && company !== "") {
+                    if (total < lowest) {
+                        lowest = total;
+                        bestVendors = [company];
+                    } else if (total === lowest) {
+                        bestVendors.push(company);
+                    }
+                }
+            });
+
+            const indicator = document.getElementById('lowestPriceIndicator');
+            if (bestVendors.length > 0 && lowest !== Infinity) {
+                indicator.classList.remove('hidden');
+                const vendorList = bestVendors.join(", ");
+                document.getElementById('lowestPriceText').innerText = `Best Price: RM ${lowest.toLocaleString('en-MY', {minimumFractionDigits: 2})} by ${vendorList}`;
+            } else {
+                indicator.classList.add('hidden');
+            }
+        }
+
+        async function generatePDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'a4');
+            
+            const reportTitle = document.getElementById('reportTitle').value || 'UNSPECIFIED ITEM';
+            // const preparedBy = document.getElementById('preparedBy').value || 'N/A';
+            const dateStr = new Date().toLocaleDateString('en-MY', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('PRICE COMPARISON', 14, 20);
+            
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(100);
+            doc.text(`Date: ${dateStr}`, 172, 20);
+            
+            doc.setDrawColor(0);
+            doc.setLineWidth(0.8);
+            doc.line(14, 25, 196, 25);
+
+            const rows = [];
+            let lowestPrice = Infinity;
+            let bestVendors = [];
+
+            document.querySelectorAll('#tableBody tr').forEach((tr, index) => {
+                const companyInput = tr.querySelector('.company-input');
+                const company = companyInput.value.trim() || "VENDORS NOT SPECIFIED";
+                const item = tr.querySelector('.item-input').value || "ITEM NOT SPECIFIED";
+                const price = parseFloat(tr.querySelector('.price-input').value) || 0;
+                const qty = tr.querySelector('.qty-input').value;
+                const totalVal = price * qty;
+                const totalStr = totalVal.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                if (totalVal > 0 && company !== "VENDORS NOT SPECIFIED") {
+                    if (totalVal < lowestPrice) {
+                        lowestPrice = totalVal;
+                        bestVendors = [company];
+                    } else if (totalVal === lowestPrice) {
+                        bestVendors.push(company);
+                    }
+                }
+
+                rows.push([
+                    { content: index + 1, styles: { halign: 'center', valign: 'top' } },
+                    // Kita kekalkan \n\nTOTAL supaya "TOTAL" berada di bawah item description
+                    { content: `${company.toUpperCase()}\n${item}\n\nTOTAL`, styles: { valign: 'top' } },
+                    // Buang \n di sini
+                    { content: `${price.toLocaleString('en-MY', { minimumFractionDigits: 2 })}`, styles: { halign: 'right', valign: 'top' } },
+                    // Buang \n di sini
+                    { content: `${qty}`, styles: { halign: 'center', valign: 'top' } },
+                    // Buang \n\n\n di sini
+                    { content: `${totalStr}`, styles: { halign: 'right', valign: 'bottom' } } 
+                ]);
+            });
+
+            doc.autoTable({
+                startY: 32,
+                head: [['NO.', 'COMPANY NAME & ITEM', 'PRICE (RM)', 'QUANTITY', 'TOTAL PRICE (RM)']],
+                body: rows,
+                theme: 'grid',
+                headStyles: { 
+                    fillColor: [248, 250, 252], 
+                    textColor: [0, 0, 0], 
+                    fontStyle: 'bold', 
+                    lineWidth: 0.1,
+                    lineColor: [0, 0, 0],
+                    halign: 'center',
+                    valign: 'middle'
+                },
+                styles: { 
+                    fontSize: 9, 
+                    cellPadding: 4, // Jarak ini akan memastikan teks tidak 'terkena' garisan border
+                    textColor: [0, 0, 0],
+                    lineColor: [0, 0, 0],
+                    lineWidth: 0.1
+                },
+                columnStyles: {
+                    0: { cellWidth: 15 },
+                    1: { cellWidth: 'auto' },
+                    2: { cellWidth: 32 },
+                    3: { cellWidth: 28 },
+                    4: { cellWidth: 42, fontStyle: 'bold', halign: 'right', valign: 'bottom' } // <--- Tukar ke valign: 'bottom'
+                },
+                didDrawCell: (data) => {
+                    if (data.section === 'body' && data.column.index === 1) {
+                        const cell = data.cell;
+                        const textLines = cell.text;
+                        if (textLines && textLines.length > 0) {
+                            // Reset draw styles for the box
+                            doc.setDrawColor(0, 0, 0);
+                            doc.setLineWidth(0.1);
+                            doc.setFillColor(255, 255, 255);
+                            
+                            // Redraw the cell background and border ('FD' means Fill then Draw)
+                            doc.rect(cell.x, cell.y, cell.width, cell.height, 'FD');
+                            
+                            const padding = 4;
+                            let currentY = cell.y + padding + 3; 
+                            
+                            // Line 0: Company Name (BOLD)
+                            doc.setTextColor(0, 0, 0);
+                            doc.setFont('helvetica', 'bold');
+                            doc.text(textLines[0], cell.x + padding, currentY);
+                            
+                            // Other lines: Normal
+                            doc.setFont('helvetica', 'normal');
+                            for (let i = 1; i < textLines.length; i++) {
+                                currentY += 4.5; 
+                                if (textLines[i]) {
+                                    doc.text(textLines[i], cell.x + padding, currentY);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            let finalY = doc.lastAutoTable.finalY + 15;
+            if (finalY > 250) { doc.addPage(); finalY = 20; }
+
+            if (bestVendors.length > 0) {
+                doc.setDrawColor(200);
+                doc.setFillColor(245, 247, 250);
+                doc.rect(14, finalY, 182, 12, 'F');
+                doc.setFontSize(10);
+                doc.setFont('helvetica', 'bold');
+                doc.setTextColor(30, 41, 59);
+                const vendorList = bestVendors.join(", ").toUpperCase();
+                doc.text(`BEST PRICE: RM ${lowestPrice.toLocaleString('en-MY', {minimumFractionDigits: 2})} BY ${vendorList}`, 18, finalY + 8);
+                finalY += 25;
+            }
+
+            // doc.setFontSize(10);
+            // doc.setFont('helvetica', 'bold');
+            // doc.setTextColor(0);
+            // doc.text(`PREPARED BY: ${preparedBy.toUpperCase()}`, 14, finalY);
+            
+            // doc.setFont('helvetica', 'normal');
+            // doc.setFontSize(8);
+            // doc.setTextColor(100);
+            // doc.text('IT Support Engineer', 14, finalY + 5);
+
+            doc.save(`Price Comparison ${reportTitle.replace(/_/g, ' ') || 'Report'}.pdf`);
+        }
+
+        window.onload = init;
+    </script>
+    
+    <!-- Footer -->
+<footer class="official-header text-white mt-16">
+    <div class="max-w-6xl mx-auto px-6 py-6 border-t border-white/10">
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+
+            <div class="text-slate-500">
+                © <span id="footerYear"></span> Muhammad Aqil Ismail
+            </div>
+            <div class="text-slate-400 uppercase tracking-widest">
+                Internal Use Only
+            </div>
+
+        </div>
+    </div>
+</footer>
+</body>
+</html>
