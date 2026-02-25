@@ -45,6 +45,28 @@
 </head>
 <body class="text-slate-900 min-h-screen">
 
+<!--Back Button-->
+<nav class="fixed top-0 left-0 w-full p-4 z-50">
+    <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <a href="../index.html" class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100/50 hover:bg-slate-200/70 border border-slate-200 transition-all group shadow-sm">
+    <i data-lucide="arrow-left" class="w-4 h-4 text-black group-hover:scale-110 transition-transform"></i>
+    <span class="text-xs font-bold tracking-widest text-black uppercase">Back to Hub</span>
+</a>
+        
+        <div class="px-4 py-1 rounded-full bg-sky-500/10 border border-sky-500/20">
+            <span class="text-xs font-bold tracking-widest text-sky-400 uppercase">System Active</span>
+        </div>
+    </div>
+</nav>
+
+<div class="pt-24"> 
+    </div>
+
+<script>
+    // Ensure Lucide icons render on the sub-pages too
+    lucide.createIcons();
+</script>
+    
     <!-- Header -->
     <header class="official-header text-white shadow-lg sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
