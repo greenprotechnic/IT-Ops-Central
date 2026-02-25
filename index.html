@@ -112,19 +112,42 @@
     </div>
 
     <script>
+        // // Initialize Lucide Icons
+        // lucide.createIcons();
+
+        // /**
+        //  * Handles the redirection with a loading effect
+        //  * @param {string} url - The destination path in the repo folder
+        //  * @param {HTMLElement} card - The clicked card element
+        //  */
+        // function launch(url, card) {
+        //     const btn = card.querySelector('.btn-launch');
+            
+        //     // 1. Visual Loading State
+        //     card.classList.add('loading-active');
+        //     btn.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Initializing...';
+            
+        //     // 2. Artificial delay to show the loading effect
+        //     setTimeout(() => {
+        //         window.location.href = url;
+        //     }, 800);
+        // }
+
         // Initialize Lucide Icons
         lucide.createIcons();
-
+        
         /**
          * Handles the redirection with a loading effect
-         * @param {string} url - The destination path in the repo folder
-         * @param {HTMLElement} card - The clicked card element
          */
         function launch(url, card) {
             const btn = card.querySelector('.btn-launch');
             
             // 1. Visual Loading State
             card.classList.add('loading-active');
+            // Store original text in a data attribute if not already stored
+            if (!btn.getAttribute('data-original-text')) {
+                btn.setAttribute('data-original-text', btn.innerText);
+            }
             btn.innerHTML = '<span class="loading loading-spinner loading-sm"></span> Initializing...';
             
             // 2. Artificial delay to show the loading effect
@@ -132,6 +155,29 @@
                 window.location.href = url;
             }, 800);
         }
+        
+        /**
+         * RESET LOGIC: 
+         * Listen for the "pageshow" event which triggers even when loading from cache (Back button)
+         */
+        window.addEventListener('pageshow', (event) => {
+            // Select all cards and buttons
+            const cards = document.querySelectorAll('.glass-card');
+            const buttons = document.querySelectorAll('.btn-launch');
+        
+            cards.forEach(card => {
+                card.classList.remove('loading-active');
+            });
+        
+            buttons.forEach(btn => {
+                const originalText = btn.getAttribute('data-original-text');
+                if (originalText) {
+                    btn.innerHTML = originalText;
+                } else {
+                    btn.innerHTML = 'Launch'; // Fallback
+                }
+            });
+        });
     </script>
 </body>
 </html>
