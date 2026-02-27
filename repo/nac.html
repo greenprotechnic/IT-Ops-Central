@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Asset Checklist</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/1057/1057240.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/10819/10819554.png">
     <!-- Tailwind CSS & DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -123,7 +123,6 @@
             <div class="flex flex-col gap-4 mb-8">
                 <h1 class="text-xl font-black text-slate-800 uppercase tracking-tight">IT Form (New Asset)</h1>
                 <div class="grid grid-cols-1 gap-2">
-                    <!-- Button color changed to Blue (btn-info) -->
                     <button onclick="downloadDirectPDF()" class="btn btn-info text-white w-full shadow-lg hover:brightness-110">
                         <i data-lucide="download" class="h-5 w-5 mr-2"></i>
                         Download PDF
@@ -223,7 +222,6 @@
                         <label class="label cursor-pointer py-1"><span class="label-text text-xs">VPN</span><input type="checkbox" id="sw-vpn" class="checkbox checkbox-xs checkbox-primary" onchange="sync()"></label>
                         <label class="label cursor-pointer py-1"><span class="label-text text-xs">Chrome</span><input type="checkbox" id="sw-chrome" class="checkbox checkbox-xs checkbox-primary" checked onchange="sync()"></label>
                         <label class="label cursor-pointer py-1"><span class="label-text text-xs">Remote Desktop GP</span><input type="checkbox" id="sw-rdp" class="checkbox checkbox-xs checkbox-primary" onchange="sync()"></label>
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Ticket System</span><input type="checkbox" id="sw-ticket" class="checkbox checkbox-xs checkbox-primary" checked onchange="sync()"></label>
                     </div>
                 </div>
 
@@ -340,10 +338,6 @@
                             <td class="text-[9pt] font-bold">REMOTE DESKTOP (GP USER)</td>
                             <td class="text-center font-bold text-xl text-maroon" id="pv-sw-rdp"></td>
                         </tr>
-                        <tr>
-                            <td class="text-[9pt] font-bold">IT TICKETING SYSTEM REGISTRATION</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-sw-ticket"></td>
-                        </tr>
                     </table>
                 </div>
 
@@ -415,7 +409,7 @@
             });
 
             // Handle Software Ticks
-            const softwares = ['anydesk', 'office', 'pdf', 'vpn', 'chrome', 'rdp', 'ticket'];
+            const softwares = ['anydesk', 'office', 'pdf', 'vpn', 'chrome', 'rdp'];
             softwares.forEach(id => {
                 const chk = document.getElementById(`sw-${id}`);
                 const pv = document.getElementById(`pv-sw-${id}`);
@@ -510,8 +504,7 @@
                 ['ADOBE PDF', getTick(document.getElementById('sw-pdf').checked)],
                 ['VPN (WORK FROM HOME)', getTick(document.getElementById('sw-vpn').checked)],
                 ['GOOGLE CHROME (BROWSER)', getTick(document.getElementById('sw-chrome').checked)],
-                ['REMOTE DESKTOP (GP USER)', getTick(document.getElementById('sw-rdp').checked)],
-                ['IT TICKETING SYSTEM REGISTRATION', getTick(document.getElementById('sw-ticket').checked)]
+                ['REMOTE DESKTOP (GP USER)', getTick(document.getElementById('sw-rdp').checked)]
             ];
 
             doc.autoTable({
