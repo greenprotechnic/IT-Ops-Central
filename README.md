@@ -46,6 +46,22 @@ A procedural tool to ensure every new hire receives the correct hardware, accoun
 
 ---
 
+## 4. 🆕 IT New Asset Checklist
+
+A tool to manage incoming IT assets, track configuration, and document deployment before assigning them to employees.
+
+### ✨ Key Features
+
+* **Asset Registration:** Record asset type, manufacturer, model, serial number, and purchase date.
+* **Configuration Tracking:** Tracks imaging, software installation, and security setup.
+* **Condition Verification:** Allows physical condition notes and warranty status.
+* **Deployment Ready:** Assign assets to staff and track handover dates.
+* **Live Preview:** See a real-time A4 layout before exporting.
+* **Audit-Ready PDF:** Generates a clean, tick-enabled PDF report for inventory and compliance.
+* **Efficient UI:** Built with TailwindCSS and DaisyUI, fully responsive and mobile-friendly.
+
+---
+
 ## 💻 Technical Stack (Shared)
 
 Across all tools, the focus was on **zero-dependency portability** and **speed**:
