@@ -135,7 +135,7 @@
         </div>
 
         <footer class="mt-20 text-center opacity-30 text-xs tracking-widest uppercase">
-            &copy; 2026 Internal IT Operations Port
+            &copy; <span id="year"></span> Muhammad Aqil Ismail
         </footer>
     </div>
 
@@ -170,6 +170,7 @@
                 if (original) b.innerHTML = original;
             });
         });
+        document.getElementById("year").textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
