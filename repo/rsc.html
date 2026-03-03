@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Asset Checklist</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/10819/10819554.png">
+    <title>Resigned Staff</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn-icons-png.flaticon.com/512/1057/1057241.png">
     <!-- Tailwind CSS & DaisyUI -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,14 +63,6 @@
             display: block;
         }
 
-        .section-label-software {
-            color: #ff0000; 
-            font-weight: bold;
-            text-decoration: underline;
-            margin-bottom: 8px;
-            display: block;
-        }
-
         .it-only-label {
             color: #000000;
             font-weight: bold;
@@ -101,6 +93,7 @@
 </head>
 <body class="min-h-screen flex flex-col">
 
+<!--Back Button-->
 <nav class="fixed top-0 left-0 w-full p-4 z-50">
     <div class="max-w-6xl mx-auto flex justify-between items-center">
         <a href="../index.html" class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100/50 hover:bg-slate-200/70 border border-slate-200 transition-all group shadow-sm">
@@ -114,17 +107,18 @@
     </div>
 </nav>
 
-<div class="pt-24"></div>
+<div class="pt-24"> 
+</div>
     
     <div class="flex flex-col lg:flex-row flex-grow overflow-hidden">
         
         <!-- Sidebar Form Input (Left) -->
         <div class="w-full lg:w-96 bg-base-100 p-6 overflow-y-auto border-r border-base-300 no-print flex-shrink-0">
             <div class="flex flex-col gap-4 mb-8">
-                <h1 class="text-xl font-black text-slate-800 uppercase tracking-tight">IT Form (New Asset)</h1>
+                <h1 class="text-xl font-black text-slate-800 uppercase tracking-tight">IT Form (Resigned Staff)</h1>
                 <div class="grid grid-cols-1 gap-2">
-                    <button onclick="downloadDirectPDF()" class="btn btn-info text-white w-full shadow-lg hover:brightness-110">
-                        <i data-lucide="download" class="h-5 w-5 mr-2"></i>
+                    <button onclick="downloadDirectPDF()" class="btn btn-error text-white w-full shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                         Download PDF
                     </button>
                 </div>
@@ -135,9 +129,9 @@
                 <!-- Employee -->
                 <div class="collapse collapse-arrow join-item border border-base-300 bg-base-100">
                     <input type="radio" name="editor-panels" checked="checked" /> 
-                    <div class="collapse-title font-bold text-sm uppercase text-info">Employee Details</div>
+                    <div class="collapse-title font-bold text-sm uppercase text-error">Employee Details</div>
                     <div class="collapse-content space-y-3 pt-4">
-                       <div class="form-control">
+                        <div class="form-control">
                             <label class="label p-1"><span class="label-text text-xs">Company Name</span></label>
                             <input type="text" id="in-company" list="company-options" class="input input-sm input-bordered w-full" placeholder="Type or Select Company" oninput="sync()">
                             
@@ -165,66 +159,41 @@
                         </div>
                         <div class="form-control">
                             <label class="label p-1"><span class="label-text text-xs">Department</span></label>
-                            <input type="text" id="in-dept" class="input input-sm input-bordered w-full" placeholder="e.g. IT" oninput="sync()">
+                            <input type="text" id="in-dept" class="input input-sm input-bordered w-full" placeholder="e.g. Sales" oninput="sync()">
                         </div>
                         <div class="form-control">
                             <label class="label p-1"><span class="label-text text-xs">Designation</span></label>
-                            <input type="text" id="in-desig" class="input input-sm input-bordered w-full" placeholder="e.g. IT Support Engineer" oninput="sync()">
+                            <input type="text" id="in-desig" class="input input-sm input-bordered w-full" placeholder="e.g. Sales Engineer" oninput="sync()">
                         </div>
                     </div>
                 </div>
 
-                <!-- Procedures -->
+                <!-- Resigned Procedures -->
                 <div class="collapse collapse-arrow join-item border border-base-300 bg-base-100">
                     <input type="radio" name="editor-panels" /> 
-                    <div class="collapse-title font-bold text-sm uppercase">New Asset Procedure</div>
+                    <div class="collapse-title font-bold text-sm uppercase">Resigned Procedures</div>
                     <div class="collapse-content space-y-1 pt-4">
-                        <label class="label cursor-pointer py-1">
-                            <span class="label-text text-xs">Hand Over Hardware</span>
-                            <input type="checkbox" id="chk-handover" class="checkbox checkbox-xs" checked onchange="sync()">
-                        </label>
-                        <label class="label cursor-pointer py-1">
-                            <span class="label-text text-xs">Receive Old Laptop</span>
-                            <input type="checkbox" id="chk-oldlaptop" class="checkbox checkbox-xs" checked onchange="sync()">
-                        </label>
-                        <label class="label cursor-pointer py-1">
-                            <span class="label-text text-xs">Account Settings</span>
-                            <input type="checkbox" id="chk-account" class="checkbox checkbox-xs" checked onchange="sync()">
-                        </label>
-                        <label class="label cursor-pointer py-1">
-                            <span class="label-text text-xs">New Profile Setup</span>
-                            <input type="checkbox" id="chk-profile" class="checkbox checkbox-xs" checked onchange="sync()">
-                        </label>
-                        <label class="label cursor-pointer py-1">
-                            <span class="label-text text-xs">Email Setup</span>
-                            <input type="checkbox" id="chk-email" class="checkbox checkbox-xs" checked onchange="sync()">
-                        </label>
-                        <label class="label cursor-pointer py-1">
-                            <span class="label-text text-xs">Printer Drivers</span>
-                            <input type="checkbox" id="chk-printer" class="checkbox checkbox-xs" checked onchange="sync()">
-                        </label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Hand Over Hardware</span><input type="checkbox" id="chk-handover" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Password for PC (Login Details)</span><input type="checkbox" id="chk-password" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Backup Necessary Docs</span><input type="checkbox" id="chk-docs" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Backup Email Addresses</span><input type="checkbox" id="chk-emails" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Reset Email Password</span><input type="checkbox" id="chk-reset" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Setup Auto Reply</span><input type="checkbox" id="chk-autoreply" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Setup Auto Forward</span><input type="checkbox" id="chk-autoforward" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Deactivate Ticket System</span><input type="checkbox" id="chk-ticket" class="checkbox checkbox-xs" onchange="sync()"></label>
+                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Format Laptop/Desktop</span><input type="checkbox" id="chk-format" class="checkbox checkbox-xs" onchange="sync()"></label>
                     </div>
                 </div>
 
-                <!-- Software -->
+                <!-- Asset & Date -->
                 <div class="collapse collapse-arrow join-item border border-base-300 bg-base-100">
                     <input type="radio" name="editor-panels" /> 
-                    <div class="collapse-title font-bold text-sm uppercase">Software</div>
-                    <div class="collapse-content space-y-1 pt-4">
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">AnyDesk</span><input type="checkbox" id="sw-anydesk" class="checkbox checkbox-xs checkbox-primary" checked onchange="sync()"></label>
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">MS Office 365</span><input type="checkbox" id="sw-office" class="checkbox checkbox-xs checkbox-primary" checked onchange="sync()"></label>
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Adobe PDF</span><input type="checkbox" id="sw-pdf" class="checkbox checkbox-xs checkbox-primary" checked onchange="sync()"></label>
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">VPN</span><input type="checkbox" id="sw-vpn" class="checkbox checkbox-xs checkbox-primary" onchange="sync()"></label>
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Chrome</span><input type="checkbox" id="sw-chrome" class="checkbox checkbox-xs checkbox-primary" checked onchange="sync()"></label>
-                        <label class="label cursor-pointer py-1"><span class="label-text text-xs">Remote Desktop GP</span><input type="checkbox" id="sw-rdp" class="checkbox checkbox-xs checkbox-primary" onchange="sync()"></label>
-                    </div>
-                </div>
-
-                <!-- Final -->
-                <div class="collapse collapse-arrow join-item border border-base-300 bg-base-100">
-                    <input type="radio" name="editor-panels" /> 
-                    <div class="collapse-title font-bold text-sm uppercase">Asset & Date</div>
+                    <div class="collapse-title font-bold text-sm uppercase">Remarks & Asset</div>
                     <div class="collapse-content space-y-3 pt-4">
+                        <div class="form-control">
+                            <label class="label p-1"><span class="label-text text-xs">Remarks (Condition)</span></label>
+                            <textarea id="in-remarks" class="textarea textarea-bordered textarea-sm w-full" rows="2" placeholder="Condition of laptop..." oninput="sync()"></textarea>
+                        </div>
                         <div class="form-control">
                             <label class="label p-1"><span class="label-text text-xs">Asset No.</span></label>
                             <input type="text" id="in-asset" class="input input-sm input-bordered w-full" value="NO RECORD" oninput="sync()">
@@ -243,7 +212,7 @@
             <div id="pdf-content">
                 <!-- PDF Header -->
                 <div class="text-center mb-10">
-                    <div class="header-title">IT DEPARTMENT CHECK LIST (NEW ASSET)</div>
+                    <div class="header-title">IT DEPARTMENT CHECK LIST (RESIGNED STAFF)</div>
                 </div>
 
                 <!-- Section: Employee Details -->
@@ -276,64 +245,51 @@
                 <!-- Section: Procedure -->
                 <div class="mb-6">
                     <p class="it-only-label">**IT USE ONLY***</p>
-                    <span class="section-label">NEW ASSET PROCEDURE:</span>
+                    <span class="section-label">STAFF RESIGNED PROCEDURE:</span>
                     <table class="form-table">
                         <tr>
-                            <td width="80%" class="text-[9pt] font-bold">HAND OVER (LAPTOP / DESKTOP) TO USER</td>
+                            <td width="80%" class="text-[9pt] font-bold">HAND OVER (LAPTOP / DESKTOP)</td>
                             <td width="20%" class="text-center font-bold text-xl text-maroon" id="pv-chk-handover"></td>
                         </tr>
                         <tr>
-                            <td class="text-[9pt] font-bold">RECEIVE OLD LAPTOP</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-oldlaptop"></td>
+                            <td class="text-[9pt] font-bold">PASSWORD FOR PC / LAPTOP (LOGIN DETAILS)</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-password"></td>
                         </tr>
                         <tr>
-                            <td class="text-[9pt] font-bold">CHANGE ACCOUNT SETTING</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-account"></td>
+                            <td class="text-[9pt] font-bold">BACK UP ALL THE NECESSARY DOCUMENT</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-docs"></td>
                         </tr>
                         <tr>
-                            <td class="text-[9pt] font-bold">SETUP NEW PROFILE UNDER USERNAME</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-profile"></td>
+                            <td class="text-[9pt] font-bold">BACK UP ALL THE IMPORTANT EMAIL ADDRESS</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-emails"></td>
                         </tr>
                         <tr>
-                            <td class="text-[9pt] font-bold">SETUP EMAIL ADDRESS</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-email"></td>
+                            <td class="text-[9pt] font-bold">RESET EMAIL PASSWORD</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-reset"></td>
                         </tr>
                         <tr>
-                            <td class="text-[9pt] font-bold">INSTALL THE NECESSARY PRINTER DRIVER</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-printer"></td>
+                            <td class="text-[9pt] font-bold">SETUP AUTOMATIC REPLY FOR EMAIL</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-autoreply"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-[9pt] font-bold">SETUP AUTO FORWARD EMAIL</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-autoforward"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-[9pt] font-bold">DEACTIVATE USER FROM IT TICKETING SYSTEM</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-ticket"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-[9pt] font-bold">FORMAT THE LAPTOP / DESKTOP (FRESH NEW)</td>
+                            <td class="text-center font-bold text-xl text-maroon" id="pv-chk-format"></td>
                         </tr>
                     </table>
                 </div>
 
-                <!-- Section: Software -->
-                <div class="mb-8">
-                    <span class="section-label-software">SOFTWARE <span class="italic">(NEED TO BE INSTALLED)</span>:</span>
-                    <table class="form-table">
-                        <tr>
-                            <td width="80%" class="text-[9pt] font-bold">ANYDESK (REMOTE USE)</td>
-                            <td width="20%" class="text-center font-bold text-xl text-maroon" id="pv-sw-anydesk"></td>
-                        </tr>
-                        <tr>
-                            <td class="text-[9pt] font-bold">MICROSOFT OFFICE 365</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-sw-office"></td>
-                        </tr>
-                        <tr>
-                            <td class="text-[9pt] font-bold">ADOBE PDF</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-sw-pdf"></td>
-                        </tr>
-                        <tr>
-                            <td class="text-[9pt] font-bold">VPN (WORK FROM HOME)</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-sw-vpn"></td>
-                        </tr>
-                        <tr>
-                            <td class="text-[9pt] font-bold">GOOGLE CHROME (BROWSER)</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-sw-chrome"></td>
-                        </tr>
-                        <tr>
-                            <td class="text-[9pt] font-bold">REMOTE DESKTOP (GP USER)</td>
-                            <td class="text-center font-bold text-xl text-maroon" id="pv-sw-rdp"></td>
-                        </tr>
-                    </table>
+                <!-- Section: Remarks -->
+                <div class="mb-10">
+                    <p class="font-bold text-[10pt] mb-2">REMARKS-CONDITION OF LAPTOP</p>
+                    <div id="pv-remarks" class="p-3 border border-black min-h-[60px] text-[9pt] font-bold text-maroon uppercase"></div>
                 </div>
 
                 <!-- Section: Assets -->
@@ -347,7 +303,7 @@
 
                 <!-- PDF Layout Footer -->
                 <div class="absolute bottom-8 left-20 right-20 pt-2 border-t border-black flex justify-between text-[8pt] font-bold text-footer-green">
-                    <div>HQ-IT-F03 Rev.: 00</div>
+                    <div>HQ-IT-F02 Rev.: 00</div>
                     <div>Page: 1 of 1</div>
                 </div>
             </div>
@@ -367,6 +323,7 @@
     </footer>
 
     <script>
+        // Ensure Lucide icons render
         lucide.createIcons();
 
         // Set Default Date as Current Date
@@ -375,7 +332,7 @@
 
         function sync() {
             // Update Text Fields
-            const fields = ['company', 'name', 'id', 'dept', 'desig', 'asset'];
+            const fields = ['company', 'name', 'id', 'dept', 'desig', 'asset', 'remarks'];
             fields.forEach(f => {
                 const inputEl = document.getElementById(`in-${f}`);
                 const previewEl = document.getElementById(`pv-${f}`);
@@ -393,19 +350,11 @@
                 datePv.innerText = `${d}/${m}/${y}`;
             }
 
-            // Handle Procedure Ticks
-            const procedures = ['handover', 'oldlaptop', 'account', 'profile', 'email', 'printer'];
+            // Handle Checklist
+            const procedures = ['handover', 'password', 'docs', 'emails', 'reset', 'autoreply', 'autoforward', 'ticket', 'format'];
             procedures.forEach(id => {
                 const chk = document.getElementById(`chk-${id}`);
                 const pv = document.getElementById(`pv-chk-${id}`);
-                if (chk && pv) pv.innerText = chk.checked ? '✓' : '';
-            });
-
-            // Handle Software Ticks
-            const softwares = ['anydesk', 'office', 'pdf', 'vpn', 'chrome', 'rdp'];
-            softwares.forEach(id => {
-                const chk = document.getElementById(`sw-${id}`);
-                const pv = document.getElementById(`pv-sw-${id}`);
                 if (chk && pv) pv.innerText = chk.checked ? '✓' : '';
             });
         }
@@ -416,20 +365,16 @@
             const staffNameRaw = document.getElementById('in-name').value || '';
             const staffNameFormatted = staffNameRaw.toUpperCase();
             
-            const getTick = (checked) => {
-                return checked ? '4' : ''; // ZapfDingbats checkmark
-            };
+            const getTick = (checked) => checked ? '4' : ''; 
 
-            // Header
-            doc.setTextColor(0, 0, 0); 
+            // 1. Header
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(16);
-            doc.text('IT DEPARTMENT CHECK LIST (NEW ASSET)', 105, 20, { align: 'center' });
-            doc.setDrawColor(0, 0, 0);
+            doc.text('IT DEPARTMENT CHECK LIST (RESIGNED STAFF)', 105, 20, { align: 'center' });
             doc.setLineWidth(0.5);
-            doc.line(40, 22, 170, 22);
+            doc.line(30, 22, 180, 22);
 
-            // Employee Details
+            // 2. Employee Details
             doc.setFontSize(11);
             doc.text('EMPLOYEE DETAILS:', 20, 35);
             
@@ -449,29 +394,30 @@
                 styles: { fontSize: 9, cellPadding: 2, textColor: 0, lineColor: 0, lineWidth: 0.1 },
                 columnStyles: { 
                     0: { cellWidth: 50, fontStyle: 'bold', fillColor: [245, 245, 245] },
-                    1: { textColor: [192, 0, 0], fontStyle: 'bold' }
+                    1: { textColor: [192, 0, 0], fontStyle: 'bold' } // Color #c00000 for user data
                 }
             });
 
-            // New Asset Procedure
-            let currentY = doc.lastAutoTable.finalY + 10;
-            doc.setTextColor(0, 0, 0);
+            // 3. Resigned Procedure
+            let currentY = doc.lastAutoTable.finalY + 8;
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bolditalic');
             doc.text('**IT USE ONLY***', 20, currentY);
             
-            doc.setTextColor(0, 0, 0);
             doc.setFontSize(11);
             doc.setFont('helvetica', 'bold');
-            doc.text('NEW ASSET PROCEDURE:', 20, currentY + 5);
+            doc.text('STAFF RESIGNED PROCEDURE:', 20, currentY + 5);
 
             const procRows = [
-                ['HAND OVER (LAPTOP / DESKTOP) TO USER', getTick(document.getElementById('chk-handover').checked)],
-                ['RECEIVE OLD LAPTOP', getTick(document.getElementById('chk-oldlaptop').checked)],
-                ['CHANGE ACCOUNT SETTING', getTick(document.getElementById('chk-account').checked)],
-                ['SETUP NEW PROFILE UNDER USERNAME', getTick(document.getElementById('chk-profile').checked)],
-                ['SETUP EMAIL ADDRESS', getTick(document.getElementById('chk-email').checked)],
-                ['INSTALL THE NECESSARY PRINTER DRIVER', getTick(document.getElementById('chk-printer').checked)]
+                ['HAND OVER (LAPTOP / DESKTOP)', getTick(document.getElementById('chk-handover').checked)],
+                ['PASSWORD FOR PC / LAPTOP (LOGIN DETAILS)', getTick(document.getElementById('chk-password').checked)],
+                ['BACK UP ALL THE NECESSARY DOCUMENT', getTick(document.getElementById('chk-docs').checked)],
+                ['BACK UP ALL THE IMPORTANT EMAIL ADDRESS', getTick(document.getElementById('chk-emails').checked)],
+                ['RESET EMAIL PASSWORD', getTick(document.getElementById('chk-reset').checked)],
+                ['SETUP AUTOMATIC REPLY FOR EMAIL', getTick(document.getElementById('chk-autoreply').checked)],
+                ['SETUP AUTO FORWARD EMAIL', getTick(document.getElementById('chk-autoforward').checked)],
+                ['DEACTIVATE USER FROM IT TICKETING SYSTEM', getTick(document.getElementById('chk-ticket').checked)],
+                ['FORMAT THE LAPTOP / DESKTOP (FRESH NEW)', getTick(document.getElementById('chk-format').checked)]
             ];
 
             doc.autoTable({
@@ -486,46 +432,28 @@
                 }
             });
 
-            // Software Section
+            // 4. Remarks Section
             currentY = doc.lastAutoTable.finalY + 10;
-            doc.setTextColor(255, 0, 0); 
-            doc.setFontSize(11);
-            doc.text('SOFTWARE', 20, currentY);
-            doc.setFont('helvetica', 'bolditalic');
-            doc.text('(NEED TO BE INSTALLED):', 45, currentY);
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.text('REMARKS-CONDITION OF LAPTOP', 20, currentY);
+            
+            const remarks = document.getElementById('in-remarks').value.toUpperCase();
+            doc.setDrawColor(0);
+            doc.rect(20, currentY + 2, 170, 20);
+            doc.setFontSize(9);
+            doc.setTextColor(192, 0, 0);
+            doc.text(remarks, 23, currentY + 8, { maxWidth: 164 });
 
-            const swRows = [
-                ['ANYDESK (REMOTE USE)', getTick(document.getElementById('sw-anydesk').checked)],
-                ['MICROSOFT OFFICE 365', getTick(document.getElementById('sw-office').checked)],
-                ['ADOBE PDF', getTick(document.getElementById('sw-pdf').checked)],
-                ['VPN (WORK FROM HOME)', getTick(document.getElementById('sw-vpn').checked)],
-                ['GOOGLE CHROME (BROWSER)', getTick(document.getElementById('sw-chrome').checked)],
-                ['REMOTE DESKTOP (GP USER)', getTick(document.getElementById('sw-rdp').checked)]
-            ];
-
-            doc.autoTable({
-                startY: currentY + 4,
-                margin: { left: 20, right: 20 },
-                body: swRows,
-                theme: 'grid',
-                styles: { fontSize: 9, cellPadding: 3, textColor: 0, lineColor: 0, lineWidth: 0.1 },
-                columnStyles: { 
-                    0: { fontStyle: 'bold' },
-                    1: { halign: 'center', font: 'ZapfDingbats', fontSize: 14, textColor: [192, 0, 0] } 
-                }
-            });
-
-            // Assets Section
-            currentY = doc.lastAutoTable.finalY + 12;
-            doc.setTextColor(0, 0, 0);
+            // 5. Assets Section
+            currentY = currentY + 30;
+            doc.setTextColor(0);
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bolditalic');
             doc.text('**IT USE ONLY***', 20, currentY);
             
-            doc.setTextColor(0);
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(10);
-            
             doc.text(`FIX ASSET NUMBER: `, 20, currentY + 8);
             doc.setTextColor(192, 0, 0); 
             doc.text(`${document.getElementById('in-asset').value.toUpperCase()}`, 60, currentY + 8);
@@ -542,12 +470,10 @@
             doc.setFontSize(8);
             doc.setTextColor(31, 172, 75); 
             doc.setFont('helvetica', 'bold');
-            doc.text('HQ-IT-F03 Rev.: 00', 20, 285);
+            doc.text('HQ-IT-F02 Rev.: 00', 20, 285);
             doc.text('Page: 1 of 1', 170, 285);
 
-            const namingPrefix = staffNameRaw ? staffNameRaw.trim() : 'UNNAMED';
-            const fileName = `${namingPrefix} (IT Department Checklist Form - New Asset).pdf`;
-            
+            const fileName = staffNameRaw ? `${staffNameRaw.trim()} (IT Department Checklist Form - Resigned Staff).pdf` : `(IT Department Checklist Form - Resigned Staff).pdf`;
             doc.save(fileName);
         }
 

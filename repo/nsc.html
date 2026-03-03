@@ -139,26 +139,21 @@
                     <div class="collapse-content space-y-3 pt-4">
                         <div class="form-control">
                             <label class="label p-1"><span class="label-text text-xs">Company Name</span></label>
-                            <select id="in-company" class="select select-sm select-bordered w-full" onchange="sync()">
-                                <option value="" disabled selected>Select Company</option>
-                                <optgroup label="TMS+">
-                                    <option value="Total Metering Solution Sdn Bhd">Total Metering Solution Sdn Bhd</option>
-                                    <option value="TMS Enthu Technology Sdn Bhd">TMS Enthu Technology Sdn Bhd</option>
-                                    <option value="TMS Energy Sdn Bhd">TMS Energy Sdn Bhd</option>
-                                    <option value="TMS KJ Distribution Sdn Bhd">TMS KJ Distribution Sdn Bhd</option>
-                                </optgroup>
-                                <optgroup label="PVG">
-                                    <option value="Broyson Automation Sdn Bhd">Broyson Automation Sdn Bhd</option>
-                                    <option value="Well Prestige Sdn Bhd">Well Prestige Sdn Bhd</option>
-                                    <option value="Synergy Instrumentation Sdn Bhd">Synergy Instrumentation Sdn Bhd</option>
-                                    <option value="Green Protechnic Sdn Bhd">Green Protechnic Sdn Bhd</option>
-                                    <option value="Jamac Metering Sdn Bhd">Jamac Metering Sdn Bhd</option>
-                                </optgroup>
-                                <optgroup label="Others">
-                                    <option value="SFG Technology (M) Sdn Bhd">SFG Technology (M) Sdn Bhd</option>
-                                    <option value="Omnipro Industries Sdn Bhd">Omnipro Industries Sdn Bhd</option>
-                                </optgroup>
-                            </select>
+                            <input type="text" id="in-company" list="company-options" class="input input-sm input-bordered w-full" placeholder="Type or Select Company" oninput="sync()">
+                            
+                            <datalist id="company-options">
+                                <option value="Total Metering Solution Sdn Bhd">
+                                <option value="TMS Enthu Technology Sdn Bhd">
+                                <option value="TMS Energy Sdn Bhd">
+                                <option value="TMS KJ Distribution Sdn Bhd">
+                                <option value="Broyson Automation Sdn Bhd">
+                                <option value="Well Prestige Sdn Bhd">
+                                <option value="Synergy Instrumentation Sdn Bhd">
+                                <option value="Green Protechnic Sdn Bhd">
+                                <option value="Jamac Metering Sdn Bhd">
+                                <option value="SFG Technology (M) Sdn Bhd">
+                                <option value="Omnipro Industries Sdn Bhd">
+                            </datalist>
                         </div>
                         <div class="form-control">
                             <label class="label p-1"><span class="label-text text-xs">Staff Name</span></label>
