@@ -227,31 +227,6 @@ Made by Muhammad Aqil 2026
                 </div>
             </div>
 
-            <!-- Section 3: Admin & Approval -->
-            <div class="collapse collapse-arrow join-item border border-base-300 bg-base-100">
-                <input type="radio" name="editor-panels" /> 
-                <div class="collapse-title font-bold text-sm bg-slate-50">Admin & Approval Use</div>
-                <div class="collapse-content space-y-3 pt-4">
-                    <div class="form-control">
-                        <label class="label p-1"><span class="label-text text-xs font-semibold">Reference No. (Admin)</span></label>
-                        <input type="text" id="in-ref" class="input input-sm input-bordered w-full" placeholder="e.g. REF-2026-001" oninput="sync()" maxlength="500">
-                    </div>
-                    <div class="divider my-1"></div>
-                    <div class="form-control">
-                        <label class="label p-1"><span class="label-text text-xs font-semibold">Approval Status</span></label>
-                        <select id="in-approval" class="select select-sm select-bordered w-full" onchange="toggleReasonLock(); sync();">
-                            <option value="">Pending</option>
-                            <option value="APPROVED">APPROVED</option>
-                            <option value="NOT APPROVED">NOT APPROVED</option>
-                        </select>
-                    </div>
-                    <div class="form-control">
-                        <label class="label p-1"><span class="label-text text-xs font-semibold">Reason for Unapproval</span></label>
-                        <input type="text" id="in-reason" class="input input-sm input-bordered w-full" placeholder="If applicable" oninput="sync()" maxlength="500">
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -312,14 +287,12 @@ Made by Muhammad Aqil 2026
             <div class="boxes-container">
                 <div class="info-box">
                     <p class="font-bold underline mb-4">For Admin/HR Use:</p>
-                    <p>Reference No. : <span id="pv-ref" class="user-value"></span></p>
+                    <p>Reference No. : __________________________________</p>
                 </div>
                 <div class="info-box">
                     <p class="font-bold underline mb-2">Approval:</p>
-                    <p class="mb-2">
-                        <span id="pv-approval" class="font-bold user-value"></span>
-                    </p>
-                    <p>Reason for Unapproval : <span id="pv-reason" class="user-value"></span></p>
+                    <p class="mb-4">&nbsp;</p>
+                    <p>Reason for Unapproval : ______________________________</p>
                 </div>
             </div>
 
@@ -443,8 +416,7 @@ Made by Muhammad Aqil 2026
         const bindings = [
             { in: 'in-company', pv: 'pv-company' },
             { in: 'in-name', pv: 'pv-name' },
-            { in: 'in-dept', pv: 'pv-dept' },
-            { in: 'in-approval', pv: 'pv-approval' }
+            { in: 'in-dept', pv: 'pv-dept' }
         ];
         bindings.forEach(b => {
             const inp = document.getElementById(b.in);
@@ -458,9 +430,6 @@ Made by Muhammad Aqil 2026
         if (nameInput && pvSignApplied) {
             pvSignApplied.innerText = nameInput.value.toUpperCase();
         }
-
-        document.getElementById('pv-ref').innerText = (document.getElementById('in-ref').value || '').toUpperCase();
-        document.getElementById('pv-reason').innerText = (document.getElementById('in-reason').value || '').toUpperCase();
 
         document.getElementById('pv-date').innerText = formatDateDisplay(document.getElementById('in-date').value);
 
@@ -491,11 +460,9 @@ Made by Muhammad Aqil 2026
     // Clear all data
     function clearAllData() {
         document.querySelectorAll('input[type="text"], input[type="date"]').forEach(i => i.value = '');
-        document.getElementById('in-approval').selectedIndex = 0;
         document.getElementById('in-date').value = new Date().toISOString().split('T')[0];
         items = [];
         addItem();
-        toggleReasonLock();
         sync();
         showAlert('All fields cleared.');
     }
@@ -637,29 +604,9 @@ Made by Muhammad Aqil 2026
         const boxRightX = 110;
         const lineSpacing = 5;
 
-        // Prepare data
-        const refText = getValue('in-ref');
-        const reasonText = getValue('in-reason');
-        const approvalText = getValue('in-approval');
-
-        const leftLabel = "Reference No. : ";
-        const rightReasonLabel = "Reason for Unapproval : ";
-
-        // Full strings that will wrap
-        const fullRefStr = leftLabel + refText;
-        const fullReasonStr = rightReasonLabel + reasonText;
-
-        // Max width inside boxes
-        const leftTextMaxWidth = boxWidth - 6;   // 79 mm
-        const rightTextMaxWidth = boxWidth - 6;  // 79 mm
-
-        // Split
-        const refLines = doc.splitTextToSize(fullRefStr, leftTextMaxWidth);
-        const reasonLines = doc.splitTextToSize(fullReasonStr, rightTextMaxWidth);
-
-        // Box heights calculation
-        const leftBoxHeight = 20 + (refLines.length - 1) * lineSpacing + 5;   // heading + wrap + padding
-        const rightBoxHeight = 25 + (reasonLines.length - 1) * lineSpacing + 5; // heading + approval line + wrap + padding
+        // Admin/Approval fields are intentionally blank for physical handwriting.
+        const leftBoxHeight = 25;
+        const rightBoxHeight = 35;
 
         // Draw LEFT box
         doc.rect(boxLeftX, currentY, boxWidth, leftBoxHeight);
@@ -670,32 +617,11 @@ Made by Muhammad Aqil 2026
         const leftHeadingWidth = doc.getTextWidth('For Admin/HR Use:');
         doc.line(18, currentY + 7, 18 + leftHeadingWidth, currentY + 7);
 
-        // Reference text (single string, wrap)
-        // Reference label + wrapped value
+        // Blank Reference No. line for handwriting
         doc.setFont('helvetica', 'normal');
-  
-        const refLabel = 'Reference No. : ';
-        const refValue = getValue('in-ref');
-
-        // Draw label
         doc.setTextColor(...primaryColor);
-        doc.text(refLabel, 18, currentY + 14);
-
-        // Calculate remaining width after label
-        const refLabelWidth = doc.getTextWidth(refLabel);
-        const refValueMaxWidth = boxWidth - 6 - refLabelWidth;
-
-        // Wrap ONLY the value
-        const wrappedRefValue = doc.splitTextToSize(refValue, refValueMaxWidth);
-
-        // First line beside label
-        doc.setTextColor(...inputColor);
-        doc.text(wrappedRefValue[0] || '', 18 + refLabelWidth, currentY + 14);
-
-        // Remaining wrapped lines
-        for (let i = 1; i < wrappedRefValue.length; i++) {
-            doc.text(wrappedRefValue[i], 18, currentY + 14 + i * lineSpacing);
-        }
+        doc.text('Reference No. :', 18, currentY + 14);
+        doc.line(43, currentY + 14.5, boxLeftX + boxWidth - 5, currentY + 14.5);
 
         // Draw RIGHT box
         doc.rect(boxRightX, currentY, boxWidth, rightBoxHeight);
@@ -706,45 +632,14 @@ Made by Muhammad Aqil 2026
         const approvalHeadingWidth = doc.getTextWidth('Approval:');
         doc.line(boxRightX + 3, currentY + 7, boxRightX + 3 + approvalHeadingWidth, currentY + 7);
 
-        // Approval status
+        // Blank approval area for handwriting
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(...inputColor);
-        doc.text(approvalText, boxRightX + 3, currentY + 14);
+        doc.setTextColor(...primaryColor);
+        doc.line(boxRightX + 3, currentY + 14, boxRightX + boxWidth - 5, currentY + 14);
 
-        // Reason label + value (wrap)
-        doc.setFont('helvetica', 'normal');
-        const reasonYStart = currentY + 22;
-
-        for (let i = 0; i < reasonLines.length; i++) {
-            const lineY = reasonYStart + i * lineSpacing;
-
-            if (i === 0) {
-
-                const labelPart = rightReasonLabel;
-
-                let valuePart = reasonLines[i];
-
-                if (valuePart.startsWith(labelPart)) {
-                    valuePart = valuePart.substring(labelPart.length);
-                }
-
-                doc.setTextColor(...primaryColor);
-                doc.text(labelPart, boxRightX + 3, lineY);
-
-                doc.setTextColor(...inputColor);
-                doc.text(
-                    valuePart,
-                    boxRightX + 3 + doc.getTextWidth(labelPart),
-                    lineY
-                );
-
-            } else {
-
-                doc.setTextColor(...inputColor);
-                doc.text(reasonLines[i], boxRightX + 3, lineY);
-
-            }
-        }
+        doc.text('Reason for Unapproval :', boxRightX + 3, currentY + 22);
+        doc.line(boxRightX + 39, currentY + 22.5, boxRightX + boxWidth - 5, currentY + 22.5);
+        doc.line(boxRightX + 3, currentY + 28, boxRightX + boxWidth - 5, currentY + 28);
 
         currentY += Math.max(leftBoxHeight, rightBoxHeight) + 15;
 
@@ -793,22 +688,10 @@ Made by Muhammad Aqil 2026
         doc.save(`Purchase Requisition and Authorization Form${namePart}.pdf`);
     }
 
-    // Toggle reason input lock
-    function toggleReasonLock() {
-        const approval = document.getElementById('in-approval');
-        const reasonInput = document.getElementById('in-reason');
-        if (approval.value === 'APPROVED') {
-            reasonInput.disabled = true;
-        } else {
-            reasonInput.disabled = false;
-        }
-    }
-
     // Init
     window.addEventListener('load', () => {
         if (!items.length) addItem();
         sync();
-        toggleReasonLock();
     });
 </script>
 </body>
